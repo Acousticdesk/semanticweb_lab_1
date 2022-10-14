@@ -82,3 +82,71 @@ knowledgeGraph.add((EX['paul'], EX['knows'], fact))
 
 print(knowledgeGraph.serialize(format='ttl'))
 
+# 1.5
+# Олена каже, що її друг живе в Києві
+
+messageGraph = Graph()
+message = EX['message_1']
+olena = EX['olena']
+olena_friend = EX['olena\'s_friend']
+information_chunk = EX['information_chunk']
+
+messageGraph.bind('ex', EX)
+
+messageGraph.add((olena, EX['says'], message))
+messageGraph.add((olena, EX['knows'], olena_friend))
+messageGraph.add((message, EX['author'], olena))
+messageGraph.add((message, EX['contains'], information_chunk))
+messageGraph.add((information_chunk, EX['about'], olena_friend))
+messageGraph.add((information_chunk, EX['assumption'], Literal('Lives in Kyiv', lang='en')))
+
+print(messageGraph.serialize(format='ttl'))
+
+# 1.6
+# Стефан думає, що Анна знає, що він знає її батька.
+
+stephanAnnaGraph = Graph()
+stephan = EX['stephan']
+anna = EX['anna']
+anna_father = EX['anna_father']
+assumption = EX['assumption']
+assumption_contents = EX['assumption_contents']
+possibility = EX['possibility']
+assumption_about = BNode('assumption_about')
+possibility_about = BNode('possibility_about')
+
+stephanAnnaGraph.bind('ex', EX)
+
+stephanAnnaGraph.add((assumption, EX['about'], assumption_about))
+stephanAnnaGraph.add((assumption_about, RDF.type, RDF.Bag))
+stephanAnnaGraph.add((assumption_about, RDF['_1'], stephan))
+stephanAnnaGraph.add((assumption_about, RDF['_2'], anna_father))
+stephanAnnaGraph.add((assumption, EX['contents'], Literal('Stephan knows my father', lang='en')))
+stephanAnnaGraph.add((anna, EX['assumes'], assumption))
+stephanAnnaGraph.add((possibility, EX['content'], Literal('Anna knows that I know', lang='en')))
+stephanAnnaGraph.add((possibility_about, RDF.type, RDF.Bag))
+stephanAnnaGraph.add((possibility_about, RDF['_1'], anna))
+stephanAnnaGraph.add((possibility_about, RDF['_2'], assumption))
+stephanAnnaGraph.add((possibility, EX['about'], possibility_about))
+stephanAnnaGraph.add((stephan, EX['thinks_about'], possibility))
+
+print(stephanAnnaGraph.serialize(format='ttl'))
+
+# 1.7
+# Іван знає, що Рим є столицею Італії.
+
+romeGraph = Graph()
+
+romeGraph.bind('ex', EX)
+
+ivan = EX['ivan']
+fact = EX['fact_1']
+rome = URIRef(DBR['Rome'])
+italy = URIRef(DBR['Italy'])
+
+romeGraph.add((fact, EX['subject'], rome))
+romeGraph.add((fact, EX['object'], italy))
+romeGraph.add((fact, RDF.type, EX['capital']))
+romeGraph.add((ivan, EX['knows_about'], fact))
+
+print(romeGraph.serialize(format='ttl'))
