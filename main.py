@@ -1,4 +1,4 @@
-from rdflib import Graph, URIRef, RDF, Namespace, BNode, Literal
+from rdflib import Graph, URIRef, RDF, Namespace, BNode, Literal, FOAF
 
 # assignment 1
 
@@ -89,16 +89,17 @@ messageGraph = Graph()
 message = EX['message_1']
 olena = EX['olena']
 olena_friend = EX['olena\'s_friend']
-information_chunk = EX['information_chunk']
+information_chunk = BNode('information_chunk')
 
 messageGraph.bind('ex', EX)
 
 messageGraph.add((olena, EX['says'], message))
-messageGraph.add((olena, EX['knows'], olena_friend))
+messageGraph.add((olena, FOAF.knows, olena_friend))
+messageGraph.add((olena_friend, FOAF.knows, olena))
 messageGraph.add((message, EX['author'], olena))
 messageGraph.add((message, EX['contains'], information_chunk))
 messageGraph.add((information_chunk, EX['about'], olena_friend))
-messageGraph.add((information_chunk, EX['assumption'], Literal('Lives in Kyiv', lang='en')))
+messageGraph.add((information_chunk, EX['contents'], Literal('My friend lives in Kyiv', lang='en')))
 
 print(messageGraph.serialize(format='ttl'))
 
