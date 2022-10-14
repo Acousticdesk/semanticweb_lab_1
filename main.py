@@ -1,4 +1,4 @@
-from rdflib import Graph, URIRef, RDF, Namespace, BNode
+from rdflib import Graph, URIRef, RDF, Namespace, BNode, Literal
 
 # assignment 1
 
@@ -65,8 +65,20 @@ essayGraph.add((essay_consists_of, RDF['_3'], EX['conclusion']))
 
 print(essayGraph.serialize(format='ttl'))
 
+# 1.4
+# Павло знає, що Олена живе в Полтаві.
 
+knowledgeGraph = Graph()
+fact = EX['fact_1']
+fact_translations = BNode('fact_translations')
 
+knowledgeGraph.bind('ex', EX)
 
+knowledgeGraph.add((fact, EX['translations'], fact_translations))
+knowledgeGraph.add((fact_translations, RDF.type, RDF.Bag))
+knowledgeGraph.add((fact_translations, RDF['_1'], Literal('Olena lives in Poltava', lang='en')))
+knowledgeGraph.add((fact_translations, RDF['_2'], Literal('Олена проживає у Полтаві', lang='uk')))
+knowledgeGraph.add((EX['paul'], EX['knows'], fact))
 
+print(knowledgeGraph.serialize(format='ttl'))
 
