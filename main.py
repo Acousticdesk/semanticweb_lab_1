@@ -1,4 +1,4 @@
-from rdflib import Graph, URIRef, RDF, Namespace, BNode, Literal, FOAF
+from rdflib import Graph, URIRef, RDF, Namespace, BNode, Literal, FOAF, XSD
 import os
 
 # assignment 1
@@ -190,6 +190,10 @@ france = DBR['France']
 # cities
 paris = DBR['Paris']
 
+# cade
+taskThreeGraph.add((cade, RDF.type, FOAF.Person))
+taskThreeGraph.add((cade, FOAF.name, Literal('Cade', lang='en')))
+
 # cade home address
 taskThreeGraph.add((cade, EX['home_address'], cadeHomeAddress))
 taskThreeGraph.add((cadeHomeAddress, EX['home_address_line'], Literal('1516 Henry Street, 94709', lang='en')))
@@ -200,23 +204,27 @@ taskThreeGraph.add((cadeHomeAddress, EX['home_country'], DBR['United_States']))
 taskThreeGraph.add((cadeEducation, EX['education_title'], DBR['Bachelor_of_Science']))
 taskThreeGraph.add((cadeEducation, EX['education_specialty'], DBR['Biology']))
 taskThreeGraph.add((cadeEducation, EX['education_place_of_study'], DBR['University_of_California,_Berkeley']))
-taskThreeGraph.add((cadeEducation, EX['education_graduate_year'], Literal('2011^^xsd:gYear')))
+taskThreeGraph.add((cadeEducation, EX['education_graduate_year'], Literal('2011', datatype=XSD.gYear)))
 taskThreeGraph.add((cade, EX['education'], cadeEducation))
 
 # cade fieldOfInterest
-taskThreeGraph.add((cadeFieldOfInterest, RDF.Bag, cadeFieldOfInterestBag))
+taskThreeGraph.add((cadeFieldOfInterestBag, RDF.type, RDF.Bag))
 taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_1'], DBR['Bird']))
 taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_2'], DBR['Ecology']))
 taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_3'], DBR['Natural_environment']))
 taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_4'], DBR['Photography']))
 taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_5'], DBR['Travel']))
-taskThreeGraph.add((cade, FOAF.interest, cadeFieldOfInterest))
+taskThreeGraph.add((cade, FOAF.interest, cadeFieldOfInterestBag))
 
 # cade travelHistory
-taskThreeGraph.add((cadeTravelHistory, RDF.Seq, cadeTravelHistorySeq))
+taskThreeGraph.add((cadeTravelHistorySeq, RDF.type, RDF.Seq))
 taskThreeGraph.add((cadeTravelHistorySeq, RDF['_1'], DBR['Canada']))
 taskThreeGraph.add((cadeTravelHistorySeq, RDF['_2'], DBR['France']))
-taskThreeGraph.add((cade, EX['travel_history'], cadeTravelHistory))
+taskThreeGraph.add((cade, EX['travel_history'], cadeTravelHistorySeq))
+
+# emma
+taskThreeGraph.add((emma, RDF.type, FOAF.Person))
+taskThreeGraph.add((emma, FOAF.name, Literal('Emma', lang='en')))
 
 # emma home address
 taskThreeGraph.add((emma, EX['home_address'], emmaHomeAddress))
@@ -228,32 +236,32 @@ taskThreeGraph.add((emmaHomeAddress, EX['home_country'], DBR['Spain']))
 taskThreeGraph.add((emmaEducation, EX['education_title'], DBR['Master_of_Science']))
 taskThreeGraph.add((emmaEducation, EX['education_specialty'], DBR['Chemistry']))
 taskThreeGraph.add((emmaEducation, EX['education_place_of_study'], DBR['University_of_Valencia']))
-taskThreeGraph.add((emmaEducation, EX['education_graduate_year'], Literal('2015^^xsd:gYear')))
+taskThreeGraph.add((emmaEducation, EX['education_graduate_year'], Literal('2015', datatype=XSD.gYear)))
 taskThreeGraph.add((emma, EX['education'], emmaEducation))
 
 # emma fieldOfStudy
-taskThreeGraph.add((emmaFieldOfStudy, RDF.Bag, emmaFieldOfStudyBag))
+taskThreeGraph.add((emmaFieldOfStudyBag, RDF.type, RDF.Bag))
 taskThreeGraph.add((emmaFieldOfStudyBag, RDF['_1'], DBR['Recycling']))
 taskThreeGraph.add((emmaFieldOfStudyBag, RDF['_2'], DBR['Toxic_waste']))
 taskThreeGraph.add((emmaFieldOfStudyBag, RDF['_3'], DBR['Air_pollution']))
-taskThreeGraph.add((emma, EX['field_of_study'], emmaFieldOfStudy))
+taskThreeGraph.add((emma, EX['field_of_study'], emmaFieldOfStudyBag))
 
 # emma fieldOfInterest
-taskThreeGraph.add((emmaFieldOfInterest, RDF.Bag, emmaFieldOfInterestBag))
+taskThreeGraph.add((emmaFieldOfInterestBag, RDF.type, RDF.Bag))
 taskThreeGraph.add((emmaFieldOfInterestBag, RDF['_1'], DBR['Cycling']))
 taskThreeGraph.add((emmaFieldOfInterestBag, RDF['_2'], EX['Music']))
 taskThreeGraph.add((emmaFieldOfInterestBag, RDF['_3'], DBR['Travel']))
-taskThreeGraph.add((emma, FOAF.interest, emmaFieldOfInterest))
+taskThreeGraph.add((emma, FOAF.interest, emmaFieldOfInterestBag))
 
 # emma travelHistory
-taskThreeGraph.add((emmaTravelHistory, RDF.Seq, emmaTravelHistorySeq))
+taskThreeGraph.add((emmaTravelHistorySeq, RDF.type, RDF.Seq))
 taskThreeGraph.add((emmaTravelHistorySeq, RDF['_1'], DBR['Portugal']))
 taskThreeGraph.add((emmaTravelHistorySeq, RDF['_2'], DBR['Italy']))
 taskThreeGraph.add((emmaTravelHistorySeq, RDF['_3'], france))
 taskThreeGraph.add((emmaTravelHistorySeq, RDF['_4'], DBR['Germany']))
 taskThreeGraph.add((emmaTravelHistorySeq, RDF['_5'], DBR['Denmark']))
 taskThreeGraph.add((emmaTravelHistorySeq, RDF['_6'], DBR['Sweden']))
-taskThreeGraph.add((emma, EX['travel_history'], emmaTravelHistory))
+taskThreeGraph.add((emma, EX['travel_history'], emmaTravelHistorySeq))
 
 # countries
 taskThreeGraph.add((france, EX['capital_in'], paris))
@@ -266,11 +274,11 @@ taskThreeGraph.add((cade, EX['in_relationship'], emmaCadeRelationship))
 taskThreeGraph.add((emma, EX['in_relationship'], emmaCadeRelationship))
 
 taskThreeGraph.add((emmaCadeRelationship, EX['met_in_place'], paris))
-taskThreeGraph.add((emmaCadeRelationship, EX['met_on_date'], Literal('2014-08^^xsd:gYearMonth')))
+taskThreeGraph.add((emmaCadeRelationship, EX['met_on_date'], Literal('2014-08', datatype=XSD.gYearMonth)))
 
 # additional changes
 
-taskThreeGraph.add((emma, FOAF.birthday, Literal('1986-10^^xsd:gYearMonth')))
+taskThreeGraph.add((emma, FOAF.birthday, Literal('1986-10', datatype=XSD.gYearMonth)))
 taskThreeGraph.add((cadeTravelHistorySeq, RDF['_3'], DBR['Germany']))
 
 # output
@@ -290,3 +298,23 @@ if os.path.exists(taskThreeFileName):
 f = open(taskThreeFileName, 'a')
 f.write(taskThreeGraphSerialized)
 f.close()
+
+# print all the triplets to the console
+for s, p, o in taskThreeGraph:
+    print(s, p, o)
+
+# print all the triplets to the console concerning emma
+# subject, predicate, object
+for s, p, o in taskThreeGraph:
+    if s == emma:
+        print(s, p, o)
+
+# print all the names in the graph
+# subject, predicate, subject
+for person in taskThreeGraph.subjects(RDF.type, FOAF.Person):
+    for name in taskThreeGraph.objects(person, FOAF.name):
+        print(name)
+
+# alternative approach for the previous assignment
+for name in taskThreeGraph.subject_objects(FOAF.name):
+    print(name[1])
