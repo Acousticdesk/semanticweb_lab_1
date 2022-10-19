@@ -268,6 +268,11 @@ taskThreeGraph.add((emma, EX['in_relationship'], emmaCadeRelationship))
 taskThreeGraph.add((emmaCadeRelationship, EX['met_in_place'], paris))
 taskThreeGraph.add((emmaCadeRelationship, EX['met_on_date'], Literal('2014-08^^xsd:gYearMonth')))
 
+# additional changes
+
+taskThreeGraph.add((emma, FOAF.birthday, Literal('1986-10^^xsd:gYearMonth')))
+taskThreeGraph.add((cadeTravelHistorySeq, RDF['_3'], DBR['Germany']))
+
 # output
 
 fileFormat = 'ttl'
