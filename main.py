@@ -1,4 +1,5 @@
 from rdflib import Graph, URIRef, RDF, Namespace, BNode, Literal, FOAF
+import os
 
 # assignment 1
 
@@ -199,7 +200,7 @@ taskThreeGraph.add((cadeHomeAddress, EX['home_country'], DBR['United_States']))
 taskThreeGraph.add((cadeEducation, EX['education_title'], DBR['Bachelor_of_Science']))
 taskThreeGraph.add((cadeEducation, EX['education_specialty'], DBR['Biology']))
 taskThreeGraph.add((cadeEducation, EX['education_place_of_study'], DBR['University_of_California,_Berkeley']))
-taskThreeGraph.add((cadeEducation, EX['education_graduate_year'], Literal('2011^^xsd:integer')))
+taskThreeGraph.add((cadeEducation, EX['education_graduate_year'], Literal('2011^^xsd:gYear')))
 taskThreeGraph.add((cade, EX['education'], cadeEducation))
 
 # cade fieldOfInterest
@@ -227,7 +228,7 @@ taskThreeGraph.add((emmaHomeAddress, EX['home_country'], DBR['Spain']))
 taskThreeGraph.add((emmaEducation, EX['education_title'], DBR['Master_of_Science']))
 taskThreeGraph.add((emmaEducation, EX['education_specialty'], DBR['Chemistry']))
 taskThreeGraph.add((emmaEducation, EX['education_place_of_study'], DBR['University_of_Valencia']))
-taskThreeGraph.add((emmaEducation, EX['education_graduate_year'], Literal('2015^^xsd:integer')))
+taskThreeGraph.add((emmaEducation, EX['education_graduate_year'], Literal('2015^^xsd:gYear')))
 taskThreeGraph.add((emma, EX['education'], emmaEducation))
 
 # emma fieldOfStudy
@@ -265,6 +266,22 @@ taskThreeGraph.add((cade, EX['in_relationship'], emmaCadeRelationship))
 taskThreeGraph.add((emma, EX['in_relationship'], emmaCadeRelationship))
 
 taskThreeGraph.add((emmaCadeRelationship, EX['met_in_place'], paris))
-taskThreeGraph.add((emmaCadeRelationship, EX['met_on_date'], Literal('2014-08-01^^xsd:date')))
+taskThreeGraph.add((emmaCadeRelationship, EX['met_on_date'], Literal('2014-08^^xsd:gYearMonth')))
 
-print(taskThreeGraph.serialize(format='ttl'))
+# output
+
+fileFormat = 'ttl'
+taskThreeGraphSerialized = taskThreeGraph.serialize(format=fileFormat)
+taskThreeFileName = f'task-three-graph.{fileFormat}'
+
+# print(taskThreeGraph.serialize(format='json-ld'))
+# print(taskThreeGraph.serialize(format='xml'))
+# print(taskThreeGraph.serialize(format='n3'))
+# print(taskThreeGraph.serialize(format='ttl'))
+
+if os.path.exists(taskThreeFileName):
+    os.remove(taskThreeFileName)
+
+f = open(taskThreeFileName, 'a')
+f.write(taskThreeGraphSerialized)
+f.close()
