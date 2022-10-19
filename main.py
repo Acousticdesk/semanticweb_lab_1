@@ -151,3 +151,120 @@ romeGraph.add((fact, RDF.type, EX['capital']))
 romeGraph.add((ivan, EX['knows_about'], fact))
 
 print(romeGraph.serialize(format='ttl'))
+
+# 3
+taskThreeGraph = Graph()
+
+# Namespace binding
+taskThreeGraph.bind('ex', EX)
+taskThreeGraph.bind('dbr', DBR)
+taskThreeGraph.bind('foaf', FOAF)
+
+# cade
+cade = EX['cade']
+cadeHomeAddress = BNode('cade_home_address')
+cadeEducation = BNode('cade_education')
+cadeFieldOfInterest = BNode('cade_field_of_interest')
+cadeFieldOfInterestBag = BNode('cade_field_of_interest_bag')
+cadeTravelHistory = BNode('cade_travel_history')
+cadeTravelHistorySeq = BNode('cade_travel_history_seq')
+
+# emma
+emma = EX['emma']
+emmaHomeAddress = BNode('emma_home_address')
+emmaEducation = BNode('emma_education')
+emmaFieldOfStudy = BNode('emma_field_of_study')
+emmaFieldOfStudyBag = BNode('emma_field_of_study_bag')
+emmaFieldOfInterest = BNode('emma_field_of_interest')
+emmaFieldOfInterestBag = BNode('emma_field_of_interest_bag')
+emmaTravelHistory = BNode('emma_travel_history')
+emmaTravelHistorySeq = BNode('emma_travel_history_seq')
+
+# emma-cade relationship
+emmaCadeRelationship = BNode('emma_cade_relationship')
+
+# countries
+france = DBR['France']
+
+# cities
+paris = DBR['Paris']
+
+# cade home address
+taskThreeGraph.add((cade, EX['home_address'], cadeHomeAddress))
+taskThreeGraph.add((cadeHomeAddress, EX['home_address_line'], Literal('1516 Henry Street, 94709', lang='en')))
+taskThreeGraph.add((cadeHomeAddress, EX['home_city'], DBR['Berkley,_Michigan']))
+taskThreeGraph.add((cadeHomeAddress, EX['home_country'], DBR['United_States']))
+
+# cade education
+taskThreeGraph.add((cadeEducation, EX['education_title'], DBR['Bachelor_of_Science']))
+taskThreeGraph.add((cadeEducation, EX['education_specialty'], DBR['Biology']))
+taskThreeGraph.add((cadeEducation, EX['education_place_of_study'], DBR['University_of_California,_Berkeley']))
+taskThreeGraph.add((cadeEducation, EX['education_graduate_year'], Literal('2011^^xsd:integer')))
+taskThreeGraph.add((cade, EX['education'], cadeEducation))
+
+# cade fieldOfInterest
+taskThreeGraph.add((cadeFieldOfInterest, RDF.Bag, cadeFieldOfInterestBag))
+taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_1'], DBR['Bird']))
+taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_2'], DBR['Ecology']))
+taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_3'], DBR['Natural_environment']))
+taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_4'], DBR['Photography']))
+taskThreeGraph.add((cadeFieldOfInterestBag, RDF['_5'], DBR['Travel']))
+taskThreeGraph.add((cade, FOAF.interest, cadeFieldOfInterest))
+
+# cade travelHistory
+taskThreeGraph.add((cadeTravelHistory, RDF.Seq, cadeTravelHistorySeq))
+taskThreeGraph.add((cadeTravelHistorySeq, RDF['_1'], DBR['Canada']))
+taskThreeGraph.add((cadeTravelHistorySeq, RDF['_2'], DBR['France']))
+taskThreeGraph.add((cade, EX['travel_history'], cadeTravelHistory))
+
+# emma home address
+taskThreeGraph.add((emma, EX['home_address'], emmaHomeAddress))
+taskThreeGraph.add((emmaHomeAddress, EX['home_address_line'], Literal('Carrer de la Guardia Civil 20, 46020', lang='en')))
+taskThreeGraph.add((emmaHomeAddress, EX['home_city'], DBR['Valencia']))
+taskThreeGraph.add((emmaHomeAddress, EX['home_country'], DBR['Spain']))
+
+# emma education
+taskThreeGraph.add((emmaEducation, EX['education_title'], DBR['Master_of_Science']))
+taskThreeGraph.add((emmaEducation, EX['education_specialty'], DBR['Chemistry']))
+taskThreeGraph.add((emmaEducation, EX['education_place_of_study'], DBR['University_of_Valencia']))
+taskThreeGraph.add((emmaEducation, EX['education_graduate_year'], Literal('2015^^xsd:integer')))
+taskThreeGraph.add((emma, EX['education'], emmaEducation))
+
+# emma fieldOfStudy
+taskThreeGraph.add((emmaFieldOfStudy, RDF.Bag, emmaFieldOfStudyBag))
+taskThreeGraph.add((emmaFieldOfStudyBag, RDF['_1'], DBR['Recycling']))
+taskThreeGraph.add((emmaFieldOfStudyBag, RDF['_2'], DBR['Toxic_waste']))
+taskThreeGraph.add((emmaFieldOfStudyBag, RDF['_3'], DBR['Air_pollution']))
+taskThreeGraph.add((emma, EX['field_of_study'], emmaFieldOfStudy))
+
+# emma fieldOfInterest
+taskThreeGraph.add((emmaFieldOfInterest, RDF.Bag, emmaFieldOfInterestBag))
+taskThreeGraph.add((emmaFieldOfInterestBag, RDF['_1'], DBR['Cycling']))
+taskThreeGraph.add((emmaFieldOfInterestBag, RDF['_2'], EX['Music']))
+taskThreeGraph.add((emmaFieldOfInterestBag, RDF['_3'], DBR['Travel']))
+taskThreeGraph.add((emma, FOAF.interest, emmaFieldOfInterest))
+
+# emma travelHistory
+taskThreeGraph.add((emmaTravelHistory, RDF.Seq, emmaTravelHistorySeq))
+taskThreeGraph.add((emmaTravelHistorySeq, RDF['_1'], DBR['Portugal']))
+taskThreeGraph.add((emmaTravelHistorySeq, RDF['_2'], DBR['Italy']))
+taskThreeGraph.add((emmaTravelHistorySeq, RDF['_3'], france))
+taskThreeGraph.add((emmaTravelHistorySeq, RDF['_4'], DBR['Germany']))
+taskThreeGraph.add((emmaTravelHistorySeq, RDF['_5'], DBR['Denmark']))
+taskThreeGraph.add((emmaTravelHistorySeq, RDF['_6'], DBR['Sweden']))
+taskThreeGraph.add((emma, EX['travel_history'], emmaTravelHistory))
+
+# countries
+taskThreeGraph.add((france, EX['capital_in'], paris))
+
+# cade - emma relationship
+taskThreeGraph.add((cade, FOAF.knows, emma))
+taskThreeGraph.add((emma, FOAF.knows, cade))
+
+taskThreeGraph.add((cade, EX['in_relationship'], emmaCadeRelationship))
+taskThreeGraph.add((emma, EX['in_relationship'], emmaCadeRelationship))
+
+taskThreeGraph.add((emmaCadeRelationship, EX['met_in_place'], paris))
+taskThreeGraph.add((emmaCadeRelationship, EX['met_on_date'], Literal('2014-08-01^^xsd:date')))
+
+print(taskThreeGraph.serialize(format='ttl'))
