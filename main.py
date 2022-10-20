@@ -29,7 +29,7 @@ brassGraph.add((brass_consists_of, RDF.type, RDF.Seq))
 brassGraph.add((brass_consists_of, RDF['_1'], zinc))
 brassGraph.add((brass_consists_of, RDF['_2'], copper))
 
-# print(brassGraph.serialize(format='ttl'))
+print(brassGraph.serialize(format='ttl'))
 
 # 1.2
 # SPIEGEL — німецький інформаційний журнал зі штаб-квартирою в Гамбурзі.
@@ -105,7 +105,7 @@ messageGraph.add((information_chunk, EX['contents'], Literal('My friend lives in
 print(messageGraph.serialize(format='ttl'))
 
 # 1.6
-# Стефан думає, що Анна знає, що він знає її батька.
+# Стефан думає, що Анна знає, що він знає її батько.
 
 stephanAnnaGraph = Graph()
 stephan = EX['stephan']
