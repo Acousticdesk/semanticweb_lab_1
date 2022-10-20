@@ -297,6 +297,7 @@ if os.path.exists(taskThreeFileName):
 
 f = open(taskThreeFileName, 'a')
 f.write(taskThreeGraphSerialized)
+f.flush()
 f.close()
 
 # print all the triplets to the console
